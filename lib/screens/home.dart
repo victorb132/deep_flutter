@@ -1,3 +1,4 @@
+import 'package:deep_flutter/util/my_calendar.dart';
 import 'package:flutter/material.dart';
 
 class Home extends StatelessWidget {
@@ -24,16 +25,39 @@ class Home extends StatelessWidget {
           ),
         ],
       ),
-      body: const Column(
-        children: [
-          Text(
-            'wake up early',
-            style: TextStyle(
-              color: Colors.white,
-              fontSize: 30,
+      body: const Padding(
+        padding: EdgeInsets.only(left: 16.0, right: 16.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              'wake up early',
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 30,
+              ),
             ),
-          ),
-        ],
+            MyCalendar(),
+            SizedBox(height: 64),
+            Text(
+              'workout',
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 30,
+              ),
+            ),
+            MyCalendar(),
+            SizedBox(height: 64),
+            Text(
+              'read a book',
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 30,
+              ),
+            ),
+            MyCalendar()
+          ],
+        ),
       ),
     );
   }
