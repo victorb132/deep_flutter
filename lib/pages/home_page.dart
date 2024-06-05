@@ -1,4 +1,6 @@
 import 'package:deep_flutter/controllers/home_controller.dart';
+import 'package:deep_flutter/models/team.dart';
+import 'package:deep_flutter/pages/team_page.dart';
 import 'package:flutter/material.dart';
 
 class HomePage extends StatefulWidget {
@@ -22,16 +24,29 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Deep Flutter'),
+        backgroundColor: Colors.indigo,
+        foregroundColor: Colors.white,
       ),
       body: ListView.separated(
-        itemCount: controller.tabela.length,
+        itemCount: controller.table.length,
         itemBuilder: (BuildContext context, int index) {
-          final tabela = controller.tabela;
+          final List<Team> table = controller.table;
 
           return ListTile(
-            leading: Image.network(tabela[index].logo),
-            title: Text(tabela[index].name),
-            trailing: Text(tabela[index].points.toString()),
+            leading: Image.network(table[index].logo),
+            title: Text(table[index].name),
+            trailing: Text(table[index].points.toString()),
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (_) => TeamPage(
+                    key: Key(table[index].name),
+                    team: table[index],
+                  ),
+                ),
+              );
+            },
           );
         },
         separatorBuilder: (_, __) => const Divider(),
