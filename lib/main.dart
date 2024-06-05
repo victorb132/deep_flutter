@@ -1,6 +1,5 @@
+import 'package:deep_flutter/pages/home_page.dart';
 import 'package:flutter/material.dart';
-
-import 'screens/home.dart';
 
 void main() {
   runApp(MaterialApp(
@@ -10,6 +9,6 @@ void main() {
           .copyWith(background: Colors.black),
     ),
     debugShowCheckedModeBanner: false,
-    home: const Home(),
+    home: const HomePage(),
   ));
 }
