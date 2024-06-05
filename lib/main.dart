@@ -1,24 +1,15 @@
-import 'package:deep_flutter/pages/home_page.dart';
 import 'package:flutter/material.dart';
 
+import 'screens/home.dart';
+
 void main() {
-  runApp(const DeepFlutter());
-}
-
-class DeepFlutter extends StatelessWidget {
-  const DeepFlutter({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Deep Flutter',
-      debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        primarySwatch: Colors.indigo,
-        visualDensity: VisualDensity.adaptivePlatformDensity,
-        useMaterial3: true,
-      ),
-      home: HomePage(),
-    );
-  }
+  runApp(MaterialApp(
+    theme: ThemeData(
+      useMaterial3: true,
+      colorScheme: ColorScheme.fromSeed(seedColor: Colors.white)
+          .copyWith(background: Colors.black),
+    ),
+    debugShowCheckedModeBanner: false,
+    home: const Home(),
+  ));
 }
