@@ -1,4 +1,7 @@
+<<<<<<< HEAD
 import 'package:deep_flutter/util/my_calendar.dart';
+=======
+>>>>>>> 528f30d (feat/change-project)
 import 'package:flutter/material.dart';
 
 class Home extends StatelessWidget {
@@ -25,6 +28,7 @@ class Home extends StatelessWidget {
           ),
         ],
       ),
+<<<<<<< HEAD
       body: const Padding(
         padding: EdgeInsets.only(left: 16.0, right: 16.0),
         child: Column(
@@ -58,6 +62,18 @@ class Home extends StatelessWidget {
             MyCalendar()
           ],
         ),
+=======
+      body: const Column(
+        children: [
+          Text(
+            'wake up early',
+            style: TextStyle(
+              color: Colors.white,
+              fontSize: 30,
+            ),
+          ),
+        ],
+>>>>>>> 528f30d (feat/change-project)
       ),
     );
   }
