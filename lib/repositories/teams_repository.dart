@@ -1,15 +1,20 @@
+import 'dart:collection';
+
 import 'package:deep_flutter/models/team.dart';
 import 'package:deep_flutter/models/title_champion.dart';
 import 'package:flutter/material.dart';
 
-class TeamsRepository {
+class TeamsRepository extends ChangeNotifier {
   final List<Team> _teams = [];
 
-  get teams => _teams;
+  UnmodifiableListView<Team> get teams => UnmodifiableListView(_teams);
 
-  void addTitleChamp(
-      {required Team team, required TitleChampion titleChampion}) {
+  void addTitleChamp({
+    required Team team,
+    required TitleChampion titleChampion,
+  }) {
     team.titles.add(titleChampion);
+    notifyListeners();
   }
 
   TeamsRepository() {
