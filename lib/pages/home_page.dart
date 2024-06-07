@@ -2,6 +2,7 @@ import 'package:deep_flutter/controllers/home_controller.dart';
 import 'package:deep_flutter/models/team.dart';
 import 'package:deep_flutter/pages/team_page.dart';
 import 'package:deep_flutter/repositories/teams_repository.dart';
+import 'package:deep_flutter/widgets/logo.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:provider/provider.dart';
@@ -38,7 +39,10 @@ class _HomePageState extends State<HomePage> {
               final List<Team> team = respositorie.teams;
 
               return ListTile(
-                leading: Image.network(team[index].logo),
+                leading: Logo(
+                  image: team[index].logo,
+                  width: 40,
+                ),
                 title: Text(team[index].name),
                 subtitle: Text('Títulos: ${team[index].titles.length}'),
                 trailing: Text(team[index].points.toString()),

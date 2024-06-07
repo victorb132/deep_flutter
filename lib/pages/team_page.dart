@@ -2,6 +2,7 @@ import 'package:deep_flutter/models/team.dart';
 import 'package:deep_flutter/pages/add_title_page.dart';
 import 'package:deep_flutter/pages/edit_title_page.dart';
 import 'package:deep_flutter/repositories/teams_repository.dart';
+import 'package:deep_flutter/widgets/logo.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:provider/provider.dart';
@@ -58,8 +59,9 @@ class _TeamPageState extends State<TeamPage> {
                 children: [
                   Padding(
                     padding: const EdgeInsets.all(24),
-                    child: Image.network(
-                      widget.team.logo.replaceAll("40x40", "100x100"),
+                    child: Logo(
+                      image: widget.team.logo,
+                      width: 250,
                     ),
                   ),
                   Text(
