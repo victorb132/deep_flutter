@@ -1,7 +1,10 @@
 import 'package:deep_flutter/models/team.dart';
-import 'package:deep_flutter/models/title_champion.dart';
 import 'package:deep_flutter/pages/add_title_page.dart';
+import 'package:deep_flutter/pages/edit_title_page.dart';
+import 'package:deep_flutter/repositories/teams_repository.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:provider/provider.dart';
 
 class TeamPage extends StatefulWidget {
   final Team team;
@@ -14,29 +17,7 @@ class TeamPage extends StatefulWidget {
 
 class _TeamPageState extends State<TeamPage> {
   titlePage() {
-    Navigator.push(
-      context,
-      MaterialPageRoute(builder: (_) {
-        return AddTitlePage(
-          team: widget.team,
-        );
-      }),
-    );
-  }
-
-  addTitleChamp(TitleChampion titleChampion) {
-    setState(() {
-      widget.team.titles.add(titleChampion);
-    });
-
-    Navigator.pop(context);
-
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(
-        content: Text('Título adicionado com sucesso'),
-        duration: Duration(seconds: 2),
-      ),
-    );
+    Get.to(() => AddTitlePage(team: widget.team));
   }
 
   @override
@@ -87,16 +68,19 @@ class _TeamPageState extends State<TeamPage> {
                   ),
                 ],
               ),
-              titles(),
+              titlesChampionchips(),
             ],
           )),
     );
   }
 
-  Widget titles() {
-    final quantity = widget.team.titles.length;
+  Widget titlesChampionchips() {
+    final team = Provider.of<TeamsRepository>(context).teams.firstWhere(
+          (team) => team.name == widget.team.name,
+        );
+    final quantityTitles = team.titles.length;
 
-    if (quantity == 0) {
+    if (quantityTitles == 0) {
       return const Center(
         child: Text('Nenhum título conquistado'),
       );
@@ -105,13 +89,20 @@ class _TeamPageState extends State<TeamPage> {
     return ListView.separated(
       itemBuilder: (BuildContext context, int index) {
         return ListTile(
-          leading: const Icon(Icons.emoji_events),
-          title: Text(widget.team.titles[index].camp),
-          trailing: Text(widget.team.titles[index].year),
-        );
+            leading: const Icon(Icons.emoji_events),
+            title: Text(widget.team.titles[index].camp),
+            trailing: Text(widget.team.titles[index].year),
+            onTap: () {
+              Get.to(
+                () => EditTitlePage(
+                  titleChampion: widget.team.titles[index],
+                ),
+                fullscreenDialog: true,
+              );
+            });
       },
       separatorBuilder: (_, __) => const Divider(),
-      itemCount: quantity,
+      itemCount: quantityTitles,
     );
   }
 }

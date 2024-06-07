@@ -3,6 +3,7 @@ import 'package:deep_flutter/models/team.dart';
 import 'package:deep_flutter/pages/team_page.dart';
 import 'package:deep_flutter/repositories/teams_repository.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 
 class HomePage extends StatefulWidget {
@@ -39,15 +40,13 @@ class _HomePageState extends State<HomePage> {
               return ListTile(
                 leading: Image.network(team[index].logo),
                 title: Text(team[index].name),
+                subtitle: Text('Títulos: ${team[index].titles.length}'),
                 trailing: Text(team[index].points.toString()),
                 onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (_) => TeamPage(
-                        key: Key(team[index].name),
-                        team: team[index],
-                      ),
+                  Get.to(
+                    () => TeamPage(
+                      key: Key(team[index].name),
+                      team: team[index],
                     ),
                   );
                 },

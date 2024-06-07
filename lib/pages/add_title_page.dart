@@ -1,6 +1,9 @@
 import 'package:deep_flutter/models/team.dart';
 import 'package:deep_flutter/models/title_champion.dart';
+import 'package:deep_flutter/repositories/teams_repository.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:provider/provider.dart';
 
 class AddTitlePage extends StatefulWidget {
   final Team team;
@@ -13,9 +16,28 @@ class AddTitlePage extends StatefulWidget {
 
 class _AddTitlePageState extends State<AddTitlePage> {
   final _formKey = GlobalKey<FormState>();
-
   final _camp = TextEditingController();
   final _year = TextEditingController();
+
+  save() {
+    Provider.of<TeamsRepository>(context, listen: false).addTitleChamp(
+      team: widget.team,
+      titleChampion: TitleChampion(
+        camp: _camp.text,
+        year: _year.text,
+      ),
+    );
+
+    Get.back();
+
+    Get.snackbar(
+      'Sucesso',
+      'Título salvo com sucesso!',
+      backgroundColor: Colors.grey[900],
+      colorText: Colors.white,
+      snackPosition: SnackPosition.BOTTOM,
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -73,10 +95,7 @@ class _AddTitlePageState extends State<AddTitlePage> {
                 child: ElevatedButton(
                   onPressed: () {
                     if (_formKey.currentState!.validate()) {
-                      final titleChampion = TitleChampion(
-                        camp: _camp.text,
-                        year: _year.text.toString(),
-                      );
+                      save();
                     }
                   },
                   child: const Row(

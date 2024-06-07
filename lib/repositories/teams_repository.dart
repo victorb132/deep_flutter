@@ -17,6 +17,16 @@ class TeamsRepository extends ChangeNotifier {
     notifyListeners();
   }
 
+  void editTitleChamp({
+    required TitleChampion titleChampion,
+    required String camp,
+    required String year,
+  }) {
+    titleChampion.camp = camp;
+    titleChampion.year = year;
+    notifyListeners();
+  }
+
   TeamsRepository() {
     _teams.addAll([
       Team(
