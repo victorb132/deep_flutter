@@ -19,7 +19,6 @@ class _TeamPageState extends State<TeamPage> {
       MaterialPageRoute(builder: (_) {
         return AddTitlePage(
           team: widget.team,
-          onSave: addTitleChamp,
         );
       }),
     );

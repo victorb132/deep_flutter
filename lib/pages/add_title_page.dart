@@ -4,9 +4,8 @@ import 'package:flutter/material.dart';
 
 class AddTitlePage extends StatefulWidget {
   final Team team;
-  final ValueChanged<TitleChampion> onSave;
 
-  const AddTitlePage({super.key, required this.team, required this.onSave});
+  const AddTitlePage({super.key, required this.team});
 
   @override
   State<AddTitlePage> createState() => _AddTitlePageState();
@@ -78,8 +77,6 @@ class _AddTitlePageState extends State<AddTitlePage> {
                         camp: _camp.text,
                         year: _year.text.toString(),
                       );
-
-                      widget.onSave(titleChampion);
                     }
                   },
                   child: const Row(
