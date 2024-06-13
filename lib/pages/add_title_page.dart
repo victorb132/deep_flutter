@@ -61,12 +61,8 @@ class _AddTitlePageState extends State<AddTitlePage> {
                   labelText: 'Ano',
                 ),
                 keyboardType: TextInputType.number,
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Informe o ano do título!';
-                  }
-                  return null;
-                },
+                validator: (value) =>
+                    TitleChampValidator().validateYear(year: value),
               ),
             ),
             Padding(
@@ -80,12 +76,8 @@ class _AddTitlePageState extends State<AddTitlePage> {
                   border: OutlineInputBorder(),
                   labelText: 'Campeonato',
                 ),
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Informe qual é o campeonato!';
-                  }
-                  return null;
-                },
+                validator: (value) =>
+                    TitleChampValidator().validateChamp(camp: value),
               ),
             ),
             Expanded(
@@ -120,5 +112,23 @@ class _AddTitlePageState extends State<AddTitlePage> {
         ),
       ),
     );
+  }
+}
+
+class TitleChampValidator {
+  validateChamp({String? camp}) {
+    if (camp == null || camp.isEmpty) {
+      return 'Campo obrigatório';
+    }
+  }
+
+  validateYear({String? year}) {
+    if (year == null || year.isEmpty) {
+      return 'Campo obrigatório';
+    }
+
+    if (year.length < 4 || year.length > 4) {
+      return 'O campo precisa ter 4 números';
+    }
   }
 }
