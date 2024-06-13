@@ -1,3 +1,6 @@
+import 'package:deep_flutter/models/team.dart';
+import 'package:deep_flutter/pages/add_title_page.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 class TitleChampValidator {
@@ -92,4 +95,65 @@ void main() {
       },
     );
   });
+
+  group(
+    'Testes do campo de ano',
+    () {
+      late Team team;
+
+      setUp(() {
+        team = Team(
+          name: 'Flamengo',
+          logo: 'flamengo.png',
+          points: 0,
+          titles: [],
+        );
+      });
+
+      testWidgets(
+        'deve confirmar que o campo de ano aparece na tela corretamente',
+        (tester) async {
+          await tester.pumpWidget(
+            MaterialApp(
+              home: AddTitlePage(team: team),
+            ),
+          );
+
+          final yearKey = find.byKey(const Key('year'));
+
+          expect(yearKey, findsOneWidget);
+        },
+      );
+
+      testWidgets(
+        'deve confirmar que o campo de campeonato aparece na tela corretamente',
+        (tester) async {
+          await tester.pumpWidget(
+            MaterialApp(
+              home: AddTitlePage(team: team),
+            ),
+          );
+
+          final campKey = find.byKey(const Key('camp'));
+
+          expect(campKey, findsOneWidget);
+        },
+      );
+
+      testWidgets(
+        'deve confirmar que o botão de salvar aparece na tela corretamente',
+        (tester) async {
+          await tester.pumpWidget(
+            MaterialApp(
+              home: AddTitlePage(team: team),
+            ),
+          );
+
+          final saveButton = find.byKey(const Key('save'));
+
+          expect(saveButton, findsOneWidget);
+        },
+      );
+    },
+  );
 }

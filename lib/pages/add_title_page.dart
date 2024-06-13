@@ -55,6 +55,7 @@ class _AddTitlePageState extends State<AddTitlePage> {
             Padding(
               padding: const EdgeInsets.all(24),
               child: TextFormField(
+                key: const Key('year'),
                 controller: _year,
                 decoration: const InputDecoration(
                   border: OutlineInputBorder(),
@@ -71,6 +72,7 @@ class _AddTitlePageState extends State<AddTitlePage> {
                 horizontal: 24,
               ),
               child: TextFormField(
+                key: const Key('camp'),
                 controller: _camp,
                 decoration: const InputDecoration(
                   border: OutlineInputBorder(),
@@ -85,6 +87,7 @@ class _AddTitlePageState extends State<AddTitlePage> {
                 alignment: Alignment.bottomCenter,
                 margin: const EdgeInsets.all(24),
                 child: ElevatedButton(
+                  key: const Key('save'),
                   onPressed: () {
                     if (_formKey.currentState!.validate()) {
                       save();
