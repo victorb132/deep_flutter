@@ -1,4 +1,5 @@
 import 'package:deep_flutter/controllers/home_controller.dart';
+import 'package:deep_flutter/controllers/theme_controller.dart';
 import 'package:deep_flutter/models/team.dart';
 import 'package:deep_flutter/pages/team_page.dart';
 import 'package:deep_flutter/repositories/teams_repository.dart';
@@ -25,11 +26,33 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
+    var controller = ThemeController.to;
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Brasileirão'),
-        backgroundColor: Colors.green,
-        foregroundColor: Colors.white,
+        actions: [
+          PopupMenuButton(
+            icon: const Icon(Icons.more_vert),
+            itemBuilder: (_) => [
+              PopupMenuItem(
+                child: ListTile(
+                  leading: Obx(
+                    () => controller.isDarkMode.value
+                        ? const Icon(Icons.brightness_7)
+                        : const Icon(Icons.brightness_2),
+                  ),
+                  title: Obx(
+                    () => controller.isDarkMode.value
+                        ? const Text('Light')
+                        : const Text('Dark'),
+                  ),
+                  onTap: () => controller.changeTheme(),
+                ),
+              )
+            ],
+          ),
+        ],
       ),
       body: Consumer<TeamsRepository>(
         builder: (context, respositorie, child) {
