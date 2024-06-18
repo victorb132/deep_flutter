@@ -2,6 +2,7 @@ import 'package:deep_flutter/models/title_champion.dart';
 import 'package:flutter/material.dart';
 
 class Team {
+  int id;
   String name;
   String logo;
   int points;
@@ -9,6 +10,7 @@ class Team {
   List<TitleChampion> titles;
 
   Team({
+    required this.id,
     required this.name,
     required this.logo,
     required this.points,
