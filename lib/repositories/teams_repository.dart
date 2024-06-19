@@ -60,8 +60,8 @@ class TeamsRepository extends ChangeNotifier {
 
     FirebaseFirestore db = await DBFirestore.get();
     await db.collection('titlesChamp').doc(titleChampion.id).update({
-      'championship': titleChampion.camp,
-      'year': titleChampion.year,
+      'championship': camp,
+      'year': year,
     });
 
     titleChampion.camp = camp;
