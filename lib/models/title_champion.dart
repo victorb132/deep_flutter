@@ -1,10 +1,10 @@
 class TitleChampion {
-  int id;
+  String? id;
   String camp;
   String year;
 
   TitleChampion({
-    required this.id,
+    this.id,
     required this.camp,
     required this.year,
   });

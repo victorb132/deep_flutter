@@ -6,7 +6,7 @@ import 'package:path/path.dart';
 class DB {
   DB._();
 
-  static final DB instance = DB._();
+  static final DB _instance = DB._();
   static Database? _database;
 
   Future<Database> get database async {
@@ -14,7 +14,7 @@ class DB {
   }
 
   static get() async {
-    return await DB.instance.database;
+    return await DB._instance.database;
   }
 
   initDatabase() async {

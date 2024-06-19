@@ -1,6 +1,8 @@
 import 'dart:collection';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:deep_flutter/database/db.dart';
+import 'package:deep_flutter/database/db_firestore.dart';
 import 'package:deep_flutter/models/team.dart';
 import 'package:deep_flutter/models/title_champion.dart';
 import 'package:flutter/material.dart';
@@ -15,13 +17,26 @@ class TeamsRepository extends ChangeNotifier {
     required Team team,
     required TitleChampion titleChampion,
   }) async {
-    Database db = await DB.get();
-    int id = await db.insert('titlesChamp', {
+    // Usando o SQLite
+
+    // Database db = await DB.get();
+    // int id = await db.insert('titlesChamp', {
+    //   'championship': titleChampion.camp,
+    //   'year': titleChampion.year,
+    //   'team_id': team.id,
+    // });
+    // titleChampion.id = id;
+
+    // Usando o Firestore
+
+    FirebaseFirestore db = await DBFirestore.get();
+    DocumentReference docRef = await db.collection('titlesChamp').add({
       'championship': titleChampion.camp,
       'year': titleChampion.year,
       'team_id': team.id,
     });
-    titleChampion.id = id;
+    titleChampion.id = docRef.id;
+
     team.titles.add(titleChampion);
     notifyListeners();
   }
@@ -31,13 +46,23 @@ class TeamsRepository extends ChangeNotifier {
     required String camp,
     required String year,
   }) async {
-    Database db = await DB.get();
-    await db.update(
-      'titlesChamp',
-      {'championship': camp, 'year': year},
-      where: 'id = ?',
-      whereArgs: [titleChampion.id],
-    );
+    // Usando o SQLite
+
+    // Database db = await DB.get();
+    // await db.update(
+    //   'titlesChamp',
+    //   {'championship': camp, 'year': year},
+    //   where: 'id = ?',
+    //   whereArgs: [titleChampion.id],
+    // );
+
+    // Usando o Firestore
+
+    FirebaseFirestore db = await DBFirestore.get();
+    await db.collection('titlesChamp').doc(titleChampion.id).update({
+      'championship': titleChampion.camp,
+      'year': titleChampion.year,
+    });
 
     titleChampion.camp = camp;
     titleChampion.year = year;
@@ -233,19 +258,41 @@ class TeamsRepository extends ChangeNotifier {
   }
 
   getTitles(int teamId) async {
-    Database db = await DB.get();
-    List results = await db.query(
-      'titlesChamp',
-      where: 'team_id = ?',
-      whereArgs: [teamId],
-    );
+    // Usando SQLite
 
-    return results.map((title) {
-      return TitleChampion(
-        id: title['id'],
-        camp: title['championship'],
-        year: title['year'],
+    // Database db = await DB.get();
+    // List results = await db.query(
+    //   'titlesChamp',
+    //   where: 'team_id = ?',
+    //   whereArgs: [teamId],
+    // );
+
+    // return results.map((title) {
+    //   return TitleChampion(
+    //     id: title['id'],
+    //     camp: title['championship'],
+    //     year: title['year'],
+    //   );
+    // }).toList();
+
+    // Usando Firestore
+
+    FirebaseFirestore db = await DBFirestore.get();
+    QuerySnapshot snapshot = await db
+        .collection('titlesChamp')
+        .where('team_id', isEqualTo: teamId)
+        .get();
+    List<TitleChampion> titles = [];
+    for (DocumentSnapshot doc in snapshot.docs) {
+      final Map<String, dynamic> data = doc.data() as Map<String, dynamic>;
+      titles.add(
+        TitleChampion(
+          id: doc.id,
+          camp: data['championship'],
+          year: data['year'],
+        ),
       );
-    }).toList();
+    }
+    return titles;
   }
 }

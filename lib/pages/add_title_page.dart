@@ -23,7 +23,6 @@ class _AddTitlePageState extends State<AddTitlePage> {
     Provider.of<TeamsRepository>(context, listen: false).addTitleChamp(
       team: widget.team,
       titleChampion: TitleChampion(
-        id: widget.team.id,
         camp: _camp.text,
         year: _year.text,
       ),
