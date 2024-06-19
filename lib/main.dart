@@ -1,12 +1,14 @@
-import 'package:deep_flutter/controllers/theme_controller.dart';
-import 'package:deep_flutter/pages/home_page.dart';
-import 'package:deep_flutter/repositories/teams_repository.dart';
+import 'package:deep_flutter/widgets/checkauth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 
-void main() {
-  Get.lazyPut<ThemeController>(() => ThemeController());
+import 'package:deep_flutter/config.dart';
+import 'package:deep_flutter/controllers/theme_controller.dart';
+import 'package:deep_flutter/repositories/teams_repository.dart';
+
+void main() async {
+  await initConfigurations();
 
   runApp(ChangeNotifierProvider(
     create: (context) => TeamsRepository(),
@@ -42,7 +44,7 @@ class MyApp extends StatelessWidget {
         ),
       ),
       themeMode: ThemeMode.system,
-      home: const HomePage(),
+      home: const CheckAuth(),
     );
   }
 }

@@ -3,6 +3,7 @@ import 'package:deep_flutter/controllers/theme_controller.dart';
 import 'package:deep_flutter/models/team.dart';
 import 'package:deep_flutter/pages/team_page.dart';
 import 'package:deep_flutter/repositories/teams_repository.dart';
+import 'package:deep_flutter/services/auth_service.dart';
 import 'package:deep_flutter/widgets/logo.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -49,7 +50,17 @@ class _HomePageState extends State<HomePage> {
                   ),
                   onTap: () => controller.changeTheme(),
                 ),
-              )
+              ),
+              PopupMenuItem(
+                child: ListTile(
+                  leading: const Icon(Icons.exit_to_app),
+                  title: const Text('Sair'),
+                  onTap: () {
+                    Navigator.pop(context);
+                    AuthService.to.logout();
+                  },
+                ),
+              ),
             ],
           ),
         ],

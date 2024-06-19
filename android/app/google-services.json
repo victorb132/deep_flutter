@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "394927965303",
+    "project_id": "deep-flutter-6bead",
+    "storage_bucket": "deep-flutter-6bead.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:394927965303:android:60c62cfa320ab451ecf272",
+        "android_client_info": {
+          "package_name": "com.example.deep_flutter"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA_FUPYi9WAZSjawpZrEnqFENaw2165zCk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
