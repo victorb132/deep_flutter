@@ -103,6 +103,7 @@ void main() {
 
       setUp(() {
         team = Team(
+          id: 0,
           name: 'Flamengo',
           logo: 'flamengo.png',
           points: 0,

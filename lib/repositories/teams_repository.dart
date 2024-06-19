@@ -217,15 +217,15 @@ class TeamsRepository extends ChangeNotifier {
   initRepository() async {
     Database db = await DB.get();
     List teams = await db.query('teams');
-    for (Team team in teams) {
+    for (final team in teams) {
       _teams.add(
         Team(
-          id: team.id,
-          name: team.name,
-          logo: team.logo,
-          points: team.points,
-          color: team.color,
-          titles: await getTitles(team.id),
+          id: team['id'],
+          name: team['name'],
+          logo: team['logo'],
+          points: team['points'],
+          color: Color(int.parse(team['color'])),
+          titles: await getTitles(team['id']),
         ),
       );
     }

@@ -45,7 +45,9 @@ class DB {
     CREATE TABLE teams(
       id INTEGER PRIMARY KEY AUTOINCREMENT,
       name TEXT,
-      shield TEXT
+      points INTEGER,
+      logo TEXT,
+      color TEXT
     )
   ''';
 
@@ -53,7 +55,7 @@ class DB {
     CREATE TABLE titlesChamp(
       id INTEGER PRIMARY KEY AUTOINCREMENT,
       championship TEXT,
-      year INTEGER,
+      year TEXT,
       team_id INTEGER,
       FOREIGN KEY(team_id) REFERENCES teams(id) ON DELETE CASCADE
     )
