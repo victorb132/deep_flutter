@@ -1,15 +1,18 @@
 import 'dart:collection';
 
+import 'package:dio/dio.dart';
+import 'package:flutter/material.dart';
+import 'package:sqflite/sqflite.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+
 import 'package:deep_flutter/database/db.dart';
 import 'package:deep_flutter/database/db_firestore.dart';
 import 'package:deep_flutter/models/team.dart';
 import 'package:deep_flutter/models/title_champion.dart';
-import 'package:flutter/material.dart';
-import 'package:sqflite/sqflite.dart';
 
 class TeamsRepository extends ChangeNotifier {
   final List<Team> _teams = [];
+  final loading = ValueNotifier(false);
 
   UnmodifiableListView<Team> get teams => UnmodifiableListView(_teams);
 
@@ -72,164 +75,172 @@ class TeamsRepository extends ChangeNotifier {
   static setupTeams() {
     return [
       Team(
-        id: 0,
         name: 'Flamengo',
-        points: 71,
-        logo: 'https://e.imguol.com/futebol/brasoes/100x100/flamengo.png',
+        points: 0,
+        logo: 'https://logodetimes.com/times/flamengo/logo-flamengo-256.png',
         color: Colors.red[900],
+        idAPI: 18,
         titles: [],
       ),
       Team(
-        id: 1,
         name: 'Internacional',
-        points: 69,
-        logo: 'https://e.imguol.com/futebol/brasoes/100x100/internacional.png',
-        color: Colors.red[900],
-        titles: [],
-      ),
-      Team(
-        id: 2,
-        name: 'Atlético-MG',
-        points: 65,
-        logo: 'https://e.imguol.com/futebol/brasoes/100x100/atletico-mg.png',
-        color: Colors.red[900],
-        titles: [],
-      ),
-      Team(
-        id: 3,
-        name: 'São Paulo',
-        points: 63,
-        logo: 'https://e.imguol.com/futebol/brasoes/100x100/sao-paulo.png',
-        color: Colors.red[900],
-        titles: [],
-      ),
-      Team(
-        id: 4,
-        name: 'Fluminense',
-        points: 61,
-        logo: 'https://e.imguol.com/futebol/brasoes/100x100/fluminense.png',
-        color: Colors.red[900],
-        titles: [],
-      ),
-      Team(
-        id: 5,
-        name: 'Grêmio',
-        points: 59,
-        logo: 'https://e.imguol.com/futebol/brasoes/100x100/gremio.png',
-        color: Colors.red[900],
-        titles: [],
-      ),
-      Team(
-        id: 6,
-        name: 'Palmeiras',
-        points: 58,
-        logo: 'https://e.imguol.com/futebol/brasoes/100x100/palmeiras.png',
-        color: Colors.red[900],
-        titles: [],
-      ),
-      Team(
-        id: 7,
-        name: 'Santos',
-        points: 54,
-        logo: 'https://e.imguol.com/futebol/brasoes/100x100/santos.png',
-        color: Colors.red[900],
-        titles: [],
-      ),
-      Team(
-        id: 8,
-        name: 'Athletico-PR',
-        points: 50,
-        logo: 'https://e.imguol.com/futebol/brasoes/100x100/atletico-pr.png',
-        color: Colors.red[900],
-        titles: [],
-      ),
-      Team(
-        id: 9,
-        name: 'Corinthians',
-        points: 50,
-        logo: 'https://e.imguol.com/futebol/brasoes/100x100/corinthians.png',
-        color: Colors.red[900],
-        titles: [],
-      ),
-      Team(
-        id: 10,
-        name: 'Bragantino',
-        points: 50,
+        points: 0,
         logo:
-            'https://e.imguol.com/futebol/brasoes/100x100/red-bull-bragantino.png',
+            'https://logodetimes.com/times/internacional/logo-internacional-256.png',
         color: Colors.red[900],
+        idAPI: 44,
         titles: [],
       ),
       Team(
-        id: 11,
+        name: 'Atlético-MG',
+        points: 0,
+        logo:
+            'https://logodetimes.com/times/atletico-mineiro/logo-atletico-mineiro-256.png',
+        color: Colors.grey[800],
+        idAPI: 30,
+        titles: [],
+      ),
+      Team(
+        name: 'São Paulo',
+        points: 0,
+        logo: 'https://logodetimes.com/times/sao-paulo/logo-sao-paulo-256.png',
+        color: Colors.red[900],
+        idAPI: 57,
+        titles: [],
+      ),
+      Team(
+        name: 'Fluminense',
+        points: 0,
+        logo:
+            'https://logodetimes.com/times/fluminense/logo-fluminense-256.png',
+        color: Colors.teal[800],
+        idAPI: 26,
+        titles: [],
+      ),
+      Team(
+        name: 'Grêmio',
+        points: 0,
+        logo: 'https://logodetimes.com/times/gremio/logo-gremio-256.png',
+        color: Colors.blue[900],
+        idAPI: 45,
+        titles: [],
+      ),
+      Team(
+        name: 'Palmeiras',
+        points: 0,
+        logo: 'https://logodetimes.com/times/palmeiras/logo-palmeiras-256.png',
+        color: Colors.green[800],
+        idAPI: 56,
+        titles: [],
+      ),
+      Team(
+        name: 'Santos',
+        points: 0,
+        logo: 'https://logodetimes.com/times/santos/logo-santos-256.png',
+        color: Colors.grey[800],
+        idAPI: 63,
+        titles: [],
+      ),
+      Team(
+        name: 'Athletico-PR',
+        points: 0,
+        logo:
+            'https://logodetimes.com/times/atletico-paranaense/logo-atletico-paranaense-256.png',
+        color: Colors.red[900],
+        idAPI: 185,
+        titles: [],
+      ),
+      Team(
+        name: 'Corinthians',
+        points: 0,
+        logo:
+            'https://logodetimes.com/times/corinthians/logo-corinthians-256.png',
+        color: Colors.grey[800],
+        idAPI: 65,
+        titles: [],
+      ),
+      Team(
+        name: 'Bragantino',
+        points: 0,
+        logo:
+            'https://logodetimes.com/times/red-bull-bragantino/logo-red-bull-bragantino-256.png',
+        color: Colors.grey[800],
+        idAPI: 64,
+        titles: [],
+      ),
+      Team(
         name: 'Ceará',
-        points: 49,
-        logo: 'https://e.imguol.com/futebol/brasoes/100x100/ceara.png',
-        color: Colors.red[900],
+        points: 0,
+        logo: 'https://logodetimes.com/times/ceara/logo-ceara-256.png',
+        color: Colors.grey[800],
+        idAPI: 105,
         titles: [],
       ),
       Team(
-        id: 12,
         name: 'Atlético-GO',
-        points: 47,
-        logo: 'https://e.imguol.com/futebol/brasoes/100x100/atletico-go.png',
+        points: 0,
+        logo:
+            'https://logodetimes.com/times/atletico-goianiense/logo-atletico-goianiense-256.png',
         color: Colors.red[900],
+        idAPI: 98,
         titles: [],
       ),
       Team(
-        id: 13,
         name: 'Sport',
-        points: 42,
-        logo: 'https://e.imguol.com/futebol/brasoes/100x100/sport.png',
+        points: 0,
+        logo:
+            'https://logodetimes.com/times/sport-recife/logo-sport-recife-256.png',
         color: Colors.red[900],
+        idAPI: 79,
         titles: [],
       ),
       Team(
-        id: 14,
         name: 'Bahia',
-        points: 41,
-        logo: 'https://e.imguol.com/futebol/brasoes/100x100/bahia.png',
-        color: Colors.red[900],
+        points: 0,
+        logo: 'https://logodetimes.com/times/bahia/logo-bahia-256.png',
+        color: Colors.blue[900],
+        idAPI: 68,
         titles: [],
       ),
       Team(
-        id: 15,
         name: 'Fortaleza',
-        points: 41,
-        logo: 'https://e.imguol.com/futebol/brasoes/100x100/fortaleza.png',
+        points: 0,
+        logo: 'https://logodetimes.com/times/fortaleza/logo-fortaleza-256.png',
         color: Colors.red[900],
+        idAPI: 131,
         titles: [],
       ),
       Team(
-        id: 16,
         name: 'Vasco',
-        points: 38,
-        logo: 'https://e.imguol.com/futebol/brasoes/100x100/vasco.png',
-        color: Colors.red[900],
+        points: 0,
+        logo:
+            'https://logodetimes.com/times/vasco-da-gama/logo-vasco-da-gama-256.png',
+        color: Colors.grey[800],
+        idAPI: 23,
         titles: [],
       ),
       Team(
-        id: 17,
         name: 'Goiás',
-        points: 37,
-        logo: 'https://e.imguol.com/futebol/brasoes/100x100/goias.png',
-        color: Colors.red[900],
+        points: 0,
+        logo: 'https://logodetimes.com/times/goias/logo-goias-256.png',
+        color: Colors.green[900],
+        idAPI: 115,
         titles: [],
       ),
       Team(
-        id: 18,
         name: 'Coritiba',
-        points: 31,
-        logo: 'https://e.imguol.com/futebol/brasoes/100x100/coritiba.png',
-        color: Colors.red[900],
+        points: 0,
+        logo: 'https://logodetimes.com/times/coritiba/logo-coritiba-5.png',
+        color: Colors.green[900],
+        idAPI: 84,
         titles: [],
       ),
       Team(
-        id: 19,
         name: 'Botafogo',
-        points: 27,
-        logo: 'https://e.imguol.com/futebol/brasoes/100x100/botafogo.png',
-        color: Colors.red[900],
+        points: 0,
+        logo: 'https://logodetimes.com/times/botafogo/logo-botafogo-256.png',
+        color: Colors.grey[800],
+        idAPI: 22,
         titles: [],
       ),
     ];
@@ -239,9 +250,66 @@ class TeamsRepository extends ChangeNotifier {
     initRepository();
   }
 
+  showLoading(bool value) {
+    loading.value = value;
+    notifyListeners();
+  }
+
+  updateTableChamp() async {
+    showLoading(true);
+
+    // Usando HTTP
+
+    // var response = await http.get(
+    //   Uri.parse('https://api.api-futebol.com.br/v1/campeonatos/10/fases/55'),
+    //   headers: {
+    //     HttpHeaders.authorizationHeader:
+    //         'Bearer live_a6bed4b4bc66e2be4614e2670e632f',
+    //   },
+    // );
+
+    // Usando Dio
+
+    var http = Dio();
+    var response = await http.get(
+      'https://api.api-futebol.com.br/v1/campeonatos/10/fases/55',
+      options: Options(headers: {
+        'Authorization': 'Bearer live_a6bed4b4bc66e2be4614e2670e632f',
+      }),
+    );
+
+    if (response.statusCode == 200) {
+      // usando http precisa fazer o decode
+      // final json = jsonDecode(response.body);
+
+      final json = response.data;
+      final table = json['tabela'];
+      final db = await DB.get();
+
+      for (final teamApi in table) {
+        final idAPI = teamApi['time']['time_id'];
+        final points = teamApi['pontos'];
+
+        await db.update(
+          'teams',
+          {'points': points},
+          where: 'idAPI = ?',
+          whereArgs: [idAPI],
+        );
+        Team team = _teams.firstWhere((team) => team.idAPI == idAPI);
+        team.points = points;
+        notifyListeners();
+        showLoading(false);
+      }
+    } else {
+      throw Exception('Failed to load table');
+    }
+  }
+
   initRepository() async {
     Database db = await DB.get();
-    List teams = await db.query('teams');
+    List teams = await db.query('teams', orderBy: 'points DESC');
+
     for (final team in teams) {
       _teams.add(
         Team(
@@ -249,11 +317,14 @@ class TeamsRepository extends ChangeNotifier {
           name: team['name'],
           logo: team['logo'],
           points: team['points'],
+          idAPI: team['idAPI'],
           color: Color(int.parse(team['color'])),
           titles: await getTitles(team['id']),
         ),
       );
     }
+
+    updateTableChamp();
     notifyListeners();
   }
 

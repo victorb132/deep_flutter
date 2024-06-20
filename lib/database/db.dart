@@ -35,6 +35,7 @@ class DB {
         'name': team.name,
         'logo': team.logo,
         'points': team.points,
+        'idAPI': team.idAPI,
         'color':
             team.color.toString().replaceAll('Color(', '').replaceAll(')', ''),
       });
@@ -47,7 +48,8 @@ class DB {
       name TEXT,
       points INTEGER,
       logo TEXT,
-      color TEXT
+      color TEXT,
+      idAPI INTEGER
     )
   ''';
 

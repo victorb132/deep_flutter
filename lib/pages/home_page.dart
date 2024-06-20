@@ -31,7 +31,28 @@ class _HomePageState extends State<HomePage> {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Brasileirão'),
+        title: Consumer<TeamsRepository>(
+          builder: (context, repository, child) {
+            return repository.loading.value
+                ? const Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      SizedBox(
+                        width: 20,
+                        height: 20,
+                        child: CircularProgressIndicator(
+                          strokeWidth: 2,
+                          valueColor:
+                              AlwaysStoppedAnimation<Color>(Colors.white),
+                        ),
+                      ),
+                      SizedBox(width: 10),
+                      Text('Atualizando...  ')
+                    ],
+                  )
+                : const Text('Tabela Brasileirão');
+          },
+        ),
         actions: [
           PopupMenuButton(
             icon: const Icon(Icons.more_vert),
@@ -67,31 +88,34 @@ class _HomePageState extends State<HomePage> {
       ),
       body: Consumer<TeamsRepository>(
         builder: (context, respositorie, child) {
-          return ListView.separated(
-            itemCount: respositorie.teams.length,
-            itemBuilder: (BuildContext context, int index) {
-              final List<Team> team = respositorie.teams;
+          return RefreshIndicator(
+            child: ListView.separated(
+              itemCount: respositorie.teams.length,
+              itemBuilder: (BuildContext context, int index) {
+                final List<Team> team = respositorie.teams;
 
-              return ListTile(
-                leading: Logo(
-                  image: team[index].logo,
-                  width: 40,
-                ),
-                title: Text(team[index].name),
-                subtitle: Text('Títulos: ${team[index].titles.length}'),
-                trailing: Text(team[index].points.toString()),
-                onTap: () {
-                  Get.to(
-                    () => TeamPage(
-                      key: Key(team[index].name),
-                      team: team[index],
-                    ),
-                  );
-                },
-              );
-            },
-            separatorBuilder: (_, __) => const Divider(),
-            padding: const EdgeInsets.all(16),
+                return ListTile(
+                  leading: Logo(
+                    image: team[index].logo,
+                    width: 40,
+                  ),
+                  title: Text(team[index].name),
+                  subtitle: Text('Títulos: ${team[index].titles.length}'),
+                  trailing: Text(team[index].points.toString()),
+                  onTap: () {
+                    Get.to(
+                      () => TeamPage(
+                        key: Key(team[index].name),
+                        team: team[index],
+                      ),
+                    );
+                  },
+                );
+              },
+              separatorBuilder: (_, __) => const Divider(),
+              padding: const EdgeInsets.all(16),
+            ),
+            onRefresh: () => respositorie.updateTableChamp(),
           );
         },
       ),
