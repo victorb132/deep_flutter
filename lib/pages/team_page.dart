@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:deep_flutter/database/db_firestore.dart';
 import 'package:deep_flutter/models/team.dart';
 import 'package:deep_flutter/pages/add_title_page.dart';
 import 'package:deep_flutter/pages/edit_title_page.dart';
@@ -17,6 +19,17 @@ class TeamPage extends StatefulWidget {
 }
 
 class _TeamPageState extends State<TeamPage> {
+  FirebaseFirestore? db;
+  Stream<DocumentSnapshot>? fansSnapShot;
+
+  @override
+  void initState() {
+    super.initState();
+
+    FirebaseFirestore db = DBFirestore.get();
+    fansSnapShot = db.doc('teams/${widget.team.id}').snapshots();
+  }
+
   titlePage() {
     Get.to(() => AddTitlePage(team: widget.team));
   }
@@ -68,6 +81,14 @@ class _TeamPageState extends State<TeamPage> {
                     'Pontos ${widget.team.points}',
                     style: const TextStyle(fontSize: 22),
                   ),
+                  StreamBuilder<DocumentSnapshot>(
+                      stream: fansSnapShot,
+                      builder: (context, snapshot) {
+                        return Text(
+                          'Torcedos ${snapshot.data?['fans']}',
+                          style: const TextStyle(fontSize: 22),
+                        );
+                      })
                 ],
               ),
               titlesChampionchips(),
