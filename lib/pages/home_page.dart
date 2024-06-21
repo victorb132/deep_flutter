@@ -29,6 +29,48 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     var controller = ThemeController.to;
 
+    showChooseTeam() {
+      Get.back();
+
+      final teams = Provider.of<TeamsRepository>(context, listen: false).teams;
+      List<SimpleDialogOption> items = [];
+
+      for (var team in teams) {
+        items.add(
+          SimpleDialogOption(
+            child: Row(
+              children: [
+                Logo(
+                  image: team.logo,
+                  width: 30,
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(left: 16.0),
+                  child: Text(team.name),
+                ),
+              ],
+            ),
+            onPressed: () {
+              Get.find<AuthService>().setTeam(team);
+              Get.back();
+            },
+          ),
+        );
+      }
+      final SimpleDialog dialog = SimpleDialog(
+        title: const Text('Escolha sua torcida'),
+        insetPadding: EdgeInsets.symmetric(
+          vertical: MediaQuery.of(context).size.height / 6,
+        ),
+        children: items,
+      );
+
+      showDialog(
+        context: context,
+        builder: (_) => dialog,
+      );
+    }
+
     return Scaffold(
       appBar: AppBar(
         title: Consumer<TeamsRepository>(
@@ -70,6 +112,13 @@ class _HomePageState extends State<HomePage> {
                         : const Text('Dark'),
                   ),
                   onTap: () => controller.changeTheme(),
+                ),
+              ),
+              PopupMenuItem(
+                child: ListTile(
+                  leading: const Icon(Icons.sports_soccer),
+                  title: const Text('Escolher Torcida'),
+                  onTap: () => showChooseTeam(),
                 ),
               ),
               PopupMenuItem(

@@ -1,3 +1,6 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:deep_flutter/database/db_firestore.dart';
+import 'package:deep_flutter/models/team.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
 
@@ -25,6 +28,20 @@ class AuthService extends GetxController {
   User? get user => _firebaseUser.value;
 
   static AuthService get to => Get.find<AuthService>();
+
+  setTeam(Team team) async {
+    final userId = _firebaseUser.value?.uid;
+
+    try {
+      FirebaseFirestore db = await DBFirestore.get();
+      await db.collection('users').doc(userId).set({
+        'team_id': team.id,
+        'team_name': team.name,
+      });
+    } on FirebaseException catch (e) {
+      showSnack('Erro ao definir o time', e.message ?? 'Erro desconhecido!');
+    }
+  }
 
   showSnack(String title, String error) {
     Get.snackbar(
